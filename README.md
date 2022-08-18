@@ -26,7 +26,6 @@ tratto dall'esempio in cartella "examples"
 
 file A.php:
 
-<?php
 
 class A {
     use Puc\TableTracer\TableTracerTrait;
@@ -58,7 +57,7 @@ class A {
 
 file prova.php:
 
-<?php 
+ 
 require_once '../vendor/autoload.php';
 
 require_once './A.php';
