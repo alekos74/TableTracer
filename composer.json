@@ -1,0 +1,10 @@
+{
+    "name": "puc/table-tracer",
+    "description": "table tracer",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Puc\\TableTracer\\": "src/"
+        }
+    }
+}
