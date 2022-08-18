@@ -28,6 +28,7 @@ file A.php:
 
 
 class A {
+
     use Puc\TableTracer\TableTracerTrait;
     
     private $a;
