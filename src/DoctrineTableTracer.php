@@ -2,7 +2,7 @@
 
 namespace Puc\TableTracer;
 
-class TableTracer
+class DoctrineTableTracer
 {
     private $em;
     private $tbN;
