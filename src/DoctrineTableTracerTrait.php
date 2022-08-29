@@ -2,14 +2,14 @@
 
 namespace Puc\TableTracer;
 
-use Puc\TableTracer\TableTracer;
+use Puc\TableTracer\DoctrineTableTracer;
 
-trait TableTracerTrait
+trait DoctrineTableTracerTrait
 {   
     private $maxTableTracerNestingLevel=2;
     
     public function trace($dbConn,$tbN,$extraData){
-        $tr=new TableTracer($dbConn,$tbN);
+        $tr=new DoctrineTableTracer($dbConn,$tbN);
         $tr->trace($this->getVars(), $extraData);
     }
 
@@ -25,7 +25,7 @@ trait TableTracerTrait
             if($k!=='maxTableTracerNestingLevel'){
                 if(\is_object($v) 
                     && $level<$this->maxTableTracerNestingLevel 
-                    && \in_array("Puc\TableTracer\TableTracerTrait",class_uses($v) )
+                    && \in_array("Puc\TableTracer\DoctrineTableTracerTrait",class_uses($v) )
                     )
                 {
                     $out[$k]=$v->getObjectVars($level+1);

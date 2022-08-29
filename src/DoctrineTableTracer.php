@@ -4,11 +4,11 @@ namespace Puc\TableTracer;
 
 class TableTracer
 {
-    private $dbConn;
+    private $em;
     private $tbN;
     
-    public function __construct($dbConn,$tableName) {
-        $this->dbConn=$dbConn;
+    public function __construct($em,$tableName) {
+        $this->em=$em;
         $this->tbN=$tableName;
     }
     
@@ -23,17 +23,14 @@ class TableTracer
                         .":datalog,"
                         .":extradata"
                         .")";
-                $stid = oci_parse($this->dbConn, $sql);
-                oci_bind_by_name($stid, ':datalog', $data);
-                oci_bind_by_name($stid, ':extradata', $extraData);
-                if(@oci_execute($stid)){
-                    return true;
-                }else{
-                    throw new \Exception(\json_encode(oci_error($stid)));
-                }
+
+                $stmt = $this->em->getConnection()->prepare($sql);
+                $stmt->execute(['datalog'=>$data,'extradata'=>$extraData]);
+
+                return true;
             }
-        } catch (\Exception $ex) {
-            throw $ex;
+        } finally {
+            throw new  \Exception("Errore inserimento in ".strtoupper($this->tbN));
         }
     }
     
@@ -53,19 +50,24 @@ class TableTracer
     
     private function checkTableExists()
     {
-        $stid = oci_parse($this->dbConn, 'SELECT 1 FROM '. \strtoupper($this->tbN). " where rownum<1");
-        if(@oci_execute($stid)){
+        $sql='SELECT 1 FROM '. \strtoupper($this->tbN). " where rownum<1";
+        try{
+            $stmt = $this->em->getConnection()->prepare($sql);
+            $stmt->execute();
             \touch(dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN));
-        }else{
-            $stid = oci_parse($this->dbConn, "CREATE TABLE ".\strtoupper($this->tbN)." (
+        }finally{
+            
+            $sql="CREATE TABLE ".\strtoupper($this->tbN)." (
                                 ID NUMBER GENERATED ALWAYS AS IDENTITY,
                                 DTOP TIMESTAMP NOT NULL,
                                 DATALOG CLOB NULL,
-                                EXTRADATA CLOB NULL)");
+                                EXTRADATA CLOB NULL)";
             
-            if(@oci_execute($stid)){
+            try{
+                $stmt = $this->em->getConnection()->prepare($sql);
+                $stmt->execute();
                 \touch(\dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN));
-            }else{
+            }finally{
                 throw new \Exception("Impossibile creare tabella ".\strtoupper($this->tbN));
             }
         }
