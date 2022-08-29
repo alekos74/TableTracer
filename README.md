@@ -17,7 +17,7 @@ Installazione:
 
 - da shell di comando:
 composer require puc/table-tracer:dev-master
-
+token: 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
 
 Utilizzo:
 
