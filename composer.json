@@ -6,5 +6,10 @@
         "psr-4": {
             "Puc\\TableTracer\\": "src/"
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Puc\\TableTracer\\TableTracer::createTracedTabDir"
+        ]
     }
 }
