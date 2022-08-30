@@ -2,14 +2,14 @@
 
 namespace Puc\TableTracer;
 
-use Puc\TableTracer\TableTracer;
+use Puc\TableTracer\OciTableTracer;
 
-trait TableTracerTrait
+trait OciTableTracerTrait
 {   
     private $maxTableTracerNestingLevel=2;
     
     public function trace($dbConn,$tbN,$extraData){
-        $tr=new TableTracer($dbConn,$tbN);
+        $tr=new OciTableTracer($dbConn,$tbN);
         $tr->trace($this->getVars(), $extraData);
     }
 

@@ -6,11 +6,5 @@
         "psr-4": {
             "Puc\\TableTracer\\": "src/"
         }
-    },
-    "scripts": {
-        
-        "post-install-cmd": [
-            "php -r \"chmod('./tracedTabs', 0777);\""
-        ]
     }
 }

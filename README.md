@@ -27,7 +27,7 @@ file A.php:
 
 class A {
 
-    use Puc\TableTracer\TableTracerTrait; // trait da usare con connessioni OCI8 standard
+    use Puc\TableTracer\OciTableTracerTrait; // trait da usare con connessioni OCI8 standard
     
     private $a;
     private $b;
