@@ -9,7 +9,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "bash ./scripts/post-install.sh"
+            "bash scripts/post-install.sh"
         ]
     }
 }
