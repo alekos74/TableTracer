@@ -9,7 +9,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "TableTracer\\TableTracer::createTracedTabDir"
+            "bash ./scripts/post-install.sh"
         ]
     }
 }
