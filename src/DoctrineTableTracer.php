@@ -29,7 +29,7 @@ class DoctrineTableTracer
 
                 return true;
             }
-        } finally {
+        } catch(\Exception $e) {
             throw new  \Exception("Errore inserimento in ".strtoupper($this->tbN));
         }
     }
@@ -42,7 +42,7 @@ class DoctrineTableTracer
             try{
                 $this->checkTableExists();
                 return true;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 throw $ex;
             }
         }
@@ -55,7 +55,7 @@ class DoctrineTableTracer
             $stmt = $this->em->getConnection()->prepare($sql);
             $stmt->execute();
             \touch(dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN));
-        }finally{
+        }catch(\Exception $e){
             
             $sql="CREATE TABLE ".\strtoupper($this->tbN)." (
                                 ID NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -67,8 +67,8 @@ class DoctrineTableTracer
                 $stmt = $this->em->getConnection()->prepare($sql);
                 $stmt->execute();
                 \touch(\dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN));
-            }finally{
-                throw new \Exception("Impossibile creare tabella ".\strtoupper($this->tbN));
+            }catch(\Exception $e){
+                throw $e;
             }
         }
     }

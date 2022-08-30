@@ -45,7 +45,7 @@ class TableTracer
             try{
                 $this->checkTableExists();
                 return true;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 throw $ex;
             }
         }
