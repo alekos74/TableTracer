@@ -57,7 +57,7 @@ class OciTableTracer extends TableTracer
         $stid = oci_parse($this->dbConn, 'SELECT 1 FROM '. \strtoupper($this->tbN). " where rownum<1");
         if(@oci_execute($stid)){
             if(!@\touch(dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN))){
-                $this->createTracedTabDir();
+                $this::createTracedTabDir();
                 \touch(dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN));
             }
         }else{
@@ -69,7 +69,7 @@ class OciTableTracer extends TableTracer
             
             if(@oci_execute($stid)){
                 if(!@\touch(dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN))){
-                    $this->createTracedTabDir();
+                    $this::createTracedTabDir();
                     \touch(dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN));
                 }
             }else{

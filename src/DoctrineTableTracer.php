@@ -56,7 +56,7 @@ class DoctrineTableTracer extends TableTracer
             $stmt = $this->em->getConnection()->prepare($sql);
             $stmt->execute();
             if(!@\touch(dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN))){
-                $this->createTracedTabDir();
+                $this::createTracedTabDir();
                 \touch(dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN));
             }
         }catch(\Exception $e){
@@ -71,7 +71,7 @@ class DoctrineTableTracer extends TableTracer
                 $stmt = $this->em->getConnection()->prepare($sql);
                 $stmt->execute();
                 if(!@\touch(dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN))){
-                    $this->createTracedTabDir();
+                    $this::createTracedTabDir();
                     \touch(dirname(__FILE__)."/tracedTabs/". \strtoupper($this->tbN));
                 }
             }catch(\Exception $e){

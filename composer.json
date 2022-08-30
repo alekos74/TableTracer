@@ -9,7 +9,7 @@
     },
     "scripts": {
         "tt-post-install": [
-            "bash vendor/puc/table-tracer/scripts/post-install.sh"
+            "bash scripts/post-install.sh"
         ],
         "post-install-cmd": [
             "@tt-post-install"

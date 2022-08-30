@@ -1,2 +1,4 @@
 /examples/*
 /src/tracedTabs/
+/vendor/
+/vendor/*
