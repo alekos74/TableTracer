@@ -10,7 +10,7 @@
     "scripts": {
         
         "post-install-cmd": [
-            "chmod ugo+rwx vendor/puc/src/tracedTabs"
+            "php -r \"chmod('./tracedTabs', 0777);\""
         ]
     }
 }
