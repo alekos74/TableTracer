@@ -183,9 +183,6 @@ $c=new stdClass();$c->prop1="prop1";$c->prop2="prop2";
 $d=new stdClass();$d->prop1="prop1";$d->c=$c;
 $b=['a'=>$a,'b'=>'b','c'=>[1,2,3,4],'d'=>$d];
 
-
-$dbh= oci_connect('username', 'password','CONN_STRING','AL32UTF8');
-
 $tracer=new Puc\TableTracer\DoctrineTableTracer($this->getDoctrine()->getManager(), 'TT_PUC1');
 
 $tracer->trace($b,['ip'=>'aaa'],true); //NOTARE IL TERZO PARAMETRO CHE DEVE ESSERE SEMPRE "TRUE" PER IL CASO TRATTATO IN QUESTO ESEMPIO ($b NON È UNA CLASSE)
