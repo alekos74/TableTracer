@@ -17,7 +17,7 @@ Installazione:
 
 - da shell di comando:
 composer require puc/table-tracer:dev-master
-token: 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
+
 
 IMPORTANTE: dopo l'installazione tramite composer è necessario eseguire uno script presente nel pacchetto 
 dalla directory radice del progetto, scrivere il seguente comando:
@@ -162,12 +162,12 @@ $tracer=new Puc\TableTracer\OciTableTracer($dbh, 'TT_PUC1');
 $tracer->trace($b,['ip'=>'aaa'],true); //NOTARE IL TERZO PARAMETRO CHE DEVE ESSERE SEMPRE "TRUE" PER IL CASO TRATTATO IN QUESTO ESEMPIO ($b NON È UNA CLASSE)
 
 oci_commit($dbh);
-
-### Questo esempio si riferisce all'uso dei driver Oci8. 
-### Il caso doctrine è identico ma al posto della connessione oci viene passato l'oggetto EntityManager
+ 
 
 4) TRACCIAMENTO DATI DI VARIABILI CHE NON SONO CLASSI (DOCTRINE)
 In questo caso quindi non viene usato il "trait"
+### Il caso doctrine è identico al precedente ma al preposto della connessione Oci viene passato l'oggetto EntityManager
+
 
 <?php 
 ini_set('display_errors', true);
