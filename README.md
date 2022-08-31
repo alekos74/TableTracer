@@ -24,6 +24,8 @@ dalla directory radice del progetto, scrivere il seguente comando:
 
 bash vendor/puc/table-tracer/scripts/post-install.sh
 
+# Questo comando può essere integrato nel file di build del deploy nella paas. Oppure aggiunto negli "scripts" del composer.json del proprio progetto
+
 
 /* ATTENZIONE */
 

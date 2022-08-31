@@ -18,7 +18,7 @@ class DoctrineTableTracer extends TableTracer
         $this->maxTableTracerNestingLevel=$level;
     }
     
-    public function trace($data,$extraData,$forceDecoding)
+    public function trace($data,$extraData,$forceDecoding=false)
     {
         if($forceDecoding){
             $data= parent::getObjectVars($data,0,$this->maxTableTracerNestingLevel);
