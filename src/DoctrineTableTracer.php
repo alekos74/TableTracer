@@ -7,14 +7,22 @@ class DoctrineTableTracer extends TableTracer
 {
     private $em;
     private $tbN;
+    private $maxTableTracerNestingLevel=2;
     
     public function __construct($em,$tableName) {
         $this->em=$em;
         $this->tbN=$tableName;
     }
     
-    public function trace($data,$extraData)
+    public function setMaxTableTracerNestingLevel($level){
+        $this->maxTableTracerNestingLevel=$level;
+    }
+    
+    public function trace($data,$extraData,$forceDecoding)
     {
+        if($forceDecoding){
+            $data= parent::getObjectVars($data,0,$this->maxTableTracerNestingLevel);
+        }
         $data= json_encode($data);
         $extraData= \json_encode($extraData);
         try{

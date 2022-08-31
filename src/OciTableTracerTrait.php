@@ -25,7 +25,7 @@ trait OciTableTracerTrait
             if($k!=='maxTableTracerNestingLevel'){
                 if(\is_object($v) 
                     && $level<$this->maxTableTracerNestingLevel 
-                    && \in_array("Puc\TableTracer\TableTracerTrait",class_uses($v) )
+                    && \in_array("Puc\TableTracer\OciTableTracerTrait",class_uses($v) )
                     )
                 {
                     $out[$k]=$v->getObjectVars($level+1);

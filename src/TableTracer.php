@@ -20,4 +20,33 @@ class TableTracer {
             mkdir(dirname(__FILE__)."/tracedTabs");
         }
     }
+    
+    public function getObjectVars($data,$level,$maxLevel){
+        $out=[];
+        if(\is_object($data) 
+            && $level<$maxLevel
+            && (
+                \in_array("Puc\TableTracer\OciTableTracerTrait",class_uses($data) )
+                ||
+                \in_array("Puc\TableTracer\DoctrineTableTracerTrait",class_uses($data) )
+                )
+            )
+        {
+            $out=$data->getObjectVars($level);
+        }elseif(\is_object($data) 
+            && $level<$maxLevel
+            )
+        {
+            foreach(get_object_vars($data) as $kk=>$vv){
+                $out[$kk]=$this->getObjectVars($vv,$level+1,$maxLevel);
+            }
+        }elseif(is_array ($data)){
+            foreach($data as $kk=>$vv){
+                $out[$kk]=$this->getObjectVars($vv,$level+1,$maxLevel);
+            }
+        }else{
+            $out=$data;
+        }
+        return $out; 
+    }
 }
