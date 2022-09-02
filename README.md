@@ -16,7 +16,7 @@ Installazione:
     ]
 
 - da shell di comando:
-composer require puc/table-tracer:dev-master
+composer require puc/table-tracer:0.2
 
 
 IMPORTANTE: dopo l'installazione tramite composer è necessario eseguire uno script presente nel pacchetto 
