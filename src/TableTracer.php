@@ -37,10 +37,30 @@ class TableTracer {
             && $level<$maxLevel
             )
         {
-            foreach(get_object_vars($data) as $kk=>$vv){
+            //foreach(get_object_vars($data) as $kk=>$vv){
+            //    $out[$kk]=$this->getObjectVars($vv,$level+1,$maxLevel);
+            //}
+            $vars=[];
+            $properties= \get_object_vars($data);
+            $class = new \ReflectionClass(get_class($data));
+            $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
+            foreach($properties as $k=>$v){
+                $vars[$k]=$v;
+            }
+            foreach($methods as $m){
+                $mn=$m->name;
+                if(strlen($mn)>3 && substr($mn, 0,3)=="get"){
+                    $pn= substr($mn, 3);
+                    $pn{0}= strtolower($pn{0});
+                    try{
+                        @$vars[$pn]=$data->$mn();
+                    }catch(\Error $e){}
+                }
+            }
+            foreach($vars as $kk=>$vv){
                 $out[$kk]=$this->getObjectVars($vv,$level+1,$maxLevel);
             }
-        }elseif(is_array ($data)){
+        }elseif(is_iterable ($data)){
             foreach($data as $kk=>$vv){
                 $out[$kk]=$this->getObjectVars($vv,$level+1,$maxLevel);
             }
