@@ -22,13 +22,19 @@ class TableTracer {
     public function trace($dbConn,$tbN,$extraData,$data=null){
         
         if(is_object($dbConn)){
-            if(get_class($dbConn)=="EntityManager"){
-                
+            if(get_class($dbConn)=="Doctrine\ORM\EntityManager"){
+                if($data){
+                    $vars=$this->getObjectVars($data, 0, $this->maxTableTracerNestingLevel);
+                }else{
+                    $vars=$this->getThisObjectVars(0);
+                }
+                $db=new DoctrineExecutor($dbConn);
+                $db->insertTrace($tbN,json_encode($vars),json_encode($extraData));
             }            
         }else{
-            if(get_resource_type($dbConn)=="oci8 connection"){
+            if(is_resource($dbConn) && get_resource_type($dbConn)=="oci8 connection"){
                 if($data){
-                    $vars=$this->getObjectVars($data, 0, 2);
+                    $vars=$this->getObjectVars($data, 0, $this->maxTableTracerNestingLevel);
                 }else{
                     $vars=$this->getThisObjectVars(0);
                 }
