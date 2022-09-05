@@ -6,6 +6,8 @@
  */
 
 namespace Puc\TableTracer;
+use Puc\TableTracer\db\DoctrineExecutor;
+use Puc\TableTracer\db\Oci8Executor;
 
 /**
  * Description of TableTracer
@@ -13,12 +15,37 @@ namespace Puc\TableTracer;
  * @author ale
  */
 class TableTracer {
-    //put your code here
     
-    public static function createTracedTabDir(){
-        if(!file_exists(dirname(__FILE__)."/../tracedTabs")){
-            mkdir(dirname(__FILE__)."/tracedTabs");
+    private $maxTableTracerNestingLevel=2;
+    private $unexploredClasses=['Date','DateTime'];
+    
+    public function trace($dbConn,$tbN,$extraData,$data=null){
+        
+        if(is_object($dbConn)){
+            if(get_class($dbConn)=="EntityManager"){
+                
+            }            
+        }else{
+            if(get_resource_type($dbConn)=="oci8 connection"){
+                if($data){
+                    $vars=$this->getObjectVars($data, 0, 2);
+                }else{
+                    $vars=$this->getThisObjectVars(0);
+                }
+                $db=new Oci8Executor($dbConn);
+                $db->insertTrace($tbN,json_encode($vars),json_encode($extraData));
+            }
         }
+    }
+    
+    public function addUnexploredClass($className){
+        $this->unexploredClasses[]=$className;
+        return $this;
+    }
+    
+    public function setMaxNestingLevel($level){
+        $this->maxTableTracerNestingLevel=$level;
+        return $this;
     }
     
     public function getObjectVars($data,$level,$maxLevel){
@@ -69,4 +96,24 @@ class TableTracer {
         }
         return $out; 
     }
+    
+    public function getThisObjectVars($level){
+        $vars= \get_object_vars($this);
+        $out=[];
+        foreach($vars as $k=>$v){
+            if($k!=='maxTableTracerNestingLevel' && $k!='unexploredClasses'){
+                if(\is_object($v) 
+                    && $level<$this->maxTableTracerNestingLevel 
+                    && \in_array("Puc\TableTracer\OciTableTracerTrait",class_uses($v) )
+                    )
+                {
+                    $out[$k]=$v->getObjectVars($level+1);
+                }else{
+                    $out[$k]=$v;
+                }
+            }
+        }
+        return $out; 
+    }
+    
 }

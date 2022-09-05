@@ -49,7 +49,7 @@ file A.php:
 
 class A {
 
-    use Puc\TableTracer\OciTableTracerTrait; // trait da usare con connessioni OCI8 standard
+    use Puc\TableTracer\TableTracerTrait; // trait da usare con connessioni OCI8 standard
     
     private $a;
     private $b;
@@ -95,14 +95,14 @@ oci_commit($dbh);
 
 
 
-2)CLASSE DOCTRINE:
+2)ENTITY DOCTRINE:
 
 file A.php:
 
 
 class A {
 
-    use Puc\TableTracer\DoctrineTableTracerTrait; // trait da usare con Doctrine
+    use Puc\TableTracer\TableTracerTrait; // trait da usare con Doctrine
     
     private $a;
     private $b;
@@ -141,7 +141,7 @@ $a->trace($this->getDoctrine()->getManager(),'TRACE_TABLE_NAME',['ip'=>'xxxx','u
 oci_commit($dbh);
 
 
-3) TRACCIAMENTO DATI DI VARIABILI CHE NON SONO CLASSI (OCI8)
+3) TRACCIAMENTO DATI DI VARIABILI CHE NON SONO CLASSI o CLASSI che non usano il trait (OCI8)
 In questo caso quindi non viene usato il "trait"
 
 <?php 
@@ -159,16 +159,16 @@ $b=['a'=>$a,'b'=>'b','c'=>[1,2,3,4],'d'=>$d];
 
 $dbh= oci_connect('username', 'password','CONN_STRING','AL32UTF8');
 
-$tracer=new Puc\TableTracer\OciTableTracer($dbh, 'TT_PUC1');
+$tracer=new Puc\TableTracer\TableTracer();
 
-$tracer->trace($b,['ip'=>'aaa'],true); //NOTARE IL TERZO PARAMETRO CHE DEVE ESSERE SEMPRE "TRUE" PER IL CASO TRATTATO IN QUESTO ESEMPIO ($b NON È UNA CLASSE)
+$tracer->trace($dbh, 'TT_PUC1',['ip'=>'aaa'],$b);
 
 oci_commit($dbh);
  
 
-4) TRACCIAMENTO DATI DI VARIABILI CHE NON SONO CLASSI (DOCTRINE)
+4) TRACCIAMENTO DATI DI VARIABILI CHE NON SONO CLASSI o CLASSI che non usano il trait  (DOCTRINE)
 In questo caso quindi non viene usato il "trait"
-### Il caso doctrine è identico al precedente ma al preposto della connessione Oci viene passato l'oggetto EntityManager
+### Il caso doctrine è identico al precedente ma al posto della connessione Oci viene passato l'oggetto EntityManager
 
 
 <?php 
@@ -183,8 +183,8 @@ $c=new stdClass();$c->prop1="prop1";$c->prop2="prop2";
 $d=new stdClass();$d->prop1="prop1";$d->c=$c;
 $b=['a'=>$a,'b'=>'b','c'=>[1,2,3,4],'d'=>$d];
 
-$tracer=new Puc\TableTracer\DoctrineTableTracer($this->getDoctrine()->getManager(), 'TT_PUC1');
+$tracer=new Puc\TableTracer\TableTracer();
 
-$tracer->trace($b,['ip'=>'aaa'],true); //NOTARE IL TERZO PARAMETRO CHE DEVE ESSERE SEMPRE "TRUE" PER IL CASO TRATTATO IN QUESTO ESEMPIO ($b NON È UNA CLASSE)
+$tracer->trace($dbh, 'TT_PUC1',['ip'=>'aaa'],$b);
 
 oci_commit($dbh);
